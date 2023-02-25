@@ -1,0 +1,1 @@
+Colorizer-0.10.vmb: call delete('/home/atalante/.config/nvim/plugin/ColorizerPlugin.vim')|call delete('/home/atalante/.config/nvim/doc/Colorizer.txt')|call delete('/home/atalante/.config/nvim/autoload/Colorizer.vim')
