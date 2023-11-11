@@ -2,30 +2,24 @@ set nocompatible
 set number
 let g:python_highlight_all = 1
 let g:colorizer_auto_color = 1
+set cursorline
 set clipboard+=unnamedplus
 
 " ALE disable LSP
 let g:ale_disable_lsp = 1
 
-" Compile + run java
-autocmd FileType java nmap <c-j> :!javac %; java %:r <cr>
-
 " Telescope
 nmap <C-t> :Telescope find_files<cr>
 
-" Slime/IPythonCell
-let g:slime_target = "tmux"
-nmap <c-c><c-x> :%SlimeSend<cr>
-nmap <c-c><c-s> :IPythonCellRun<cr>
+" NerdTREE
+nmap <c-n> :NERDTree<cr>
+
+" AnyJump
+nmap <c-j> :AnyJump<cr>
+
 
 " Vim slime default to 0.1
 let g:slime_default_config = {"socket_name": get(split($TMUX, ","), 0), "target_pane": ":.1"}
-
-" Vim slime use with R radian
-function! _EscapeText_r(text)
-  call system("cat > ~/.slime_r", a:text)
-  return ["source('~/.slime_r', echo = TRUE, max.deparse.length = 4095)\r"]
-endfunction
 
 filetype plugin indent on
 
@@ -33,12 +27,18 @@ filetype plugin indent on
 set tabstop=4
 set shiftwidth=4
 set expandtab	
-set nohlsearch
+
+"colorscheme onedark
+colorscheme nordic
+
 
 " Python settings
-colorscheme onedark
-autocmd FileType python colorscheme NeoSolarized
-autocmd FileType python AirlineToggle
+autocmd FileType python nmap <c-p><c-p> :!python % <cr>
+autocmd FileType python nmap <C-p><c-i> :!pip install -e . <cr>
+
+" Java settings
+autocmd FileType java set cc=120
+
 
 let g:python3_host_prog = "/usr/bin/python"
 
@@ -46,7 +46,7 @@ let g:python3_host_prog = "/usr/bin/python"
 autocmd FileType html packadd emmet-vim
 
 " jinja2 snippets
-let g:user_emmet_settings = {
+autocmd FileType html let g:user_emmet_settings = {
 \    "html" : {
 \        "snippets" : {
 \                "block" : "{% block ${1} %}\n\t\n{% endblock %}",
@@ -70,3 +70,14 @@ if exists('+termguicolors')
   let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
   set termguicolors
 endif
+
+lua require("autoclose").setup()
+
+lua vim.g.loaded_perl_provider = 0
+lua vim.g.loaded_ruby_provider = 0
+lua vim.g.loaded_node_provider = 0
+
+" Getter/setter mapping
+" https://vim.fandom.com/wiki/Generate_Java_setters_and_getters_automatically
+map <C-g><C-s> mawv/ <CR>"ty/ <CR>wvwh"ny/getters<CR>$a<CR><CR><Esc>xxapublic<Esc>"tpa<Esc>"npbiget<Esc>l~ea()<CR>{<CR><Tab>return<Esc>"npa;<CR>}<Esc>=<CR><Esc>/setters<CR>$a<CR><CR><Esc>xxapublic void<Esc>"npbiset<Esc>l~ea(<Esc>"tpa <Esc>"npa)<CR>{<CR><Tab>this.<Esc>"npa=<Esc>"npa;<CR>}<Esc>=<CR>`ak
+
