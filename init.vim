@@ -28,3 +28,6 @@ inoremap <silent><expr> <tab> pumvisible() ? coc#_select_confirm() : "\<C-g>u\<t
 
 " Load nvim-tree
 lua require('nvim-tree').setup()
+
+" Load auto-close
+lua require("autoclose").setup()
