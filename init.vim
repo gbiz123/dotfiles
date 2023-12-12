@@ -7,6 +7,12 @@ set tabstop=4
 set shiftwidth=4
 set expandtab
 
+# Highlightedyank
+git clone https://github.com/machakann/vim-highlightedyank $HOME/.local/share/nvim/site/pack/plugin/start/vim-highlightedyank
+
+# autoclose
+git clone https://github.com/m4xshen/autoclose.nvim $HOME/.local/share/nvim/site/pack/plugin/start/autoclose.nvim
+
 " HTML
 autocmd FileType html set tabstop=2
 autocmd FileType html set shiftwidth=2
