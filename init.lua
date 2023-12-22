@@ -7,6 +7,9 @@ vim.opt.rtp:prepend(lazypath)
 
 -- Add plugins
 require('lazy').setup({
+  'puremourning/vimspector',
+  'williamboman/nvim-lsp-installer',
+  'artur-shaik/jc.nvim', -- javacomplete
   'weirongxu/plantuml-previewer.vim', -- PlantUML previewer
   'tyru/open-browser.vim', -- Open browser
   'nvim-tree/nvim-web-devicons', --nvim tree icons
@@ -14,6 +17,7 @@ require('lazy').setup({
   'aklt/plantuml-syntax', --plantUML syntax
   'AlexvZyl/nordic.nvim', -- nordic
   'Mofiqul/vscode.nvim', -- vscode
+  'sainnhe/gruvbox-material', -- gruvbox
   'tpope/vim-fugitive', -- Git commands in nvim
   'tpope/vim-rhubarb', -- Fugitive-companion to interact with github
   'numToStr/Comment.nvim', -- "gc" to comment visual regions/lines
@@ -71,13 +75,13 @@ vim.o.completeopt = 'menuone,noselect'
 
 --Set colorscheme (order is important here)
 vim.o.termguicolors = true
-vim.cmd.colorscheme 'nordic'
+vim.cmd.colorscheme 'gruvbox-material'
 
 --Set statusbar
 require('lualine').setup {
   options = {
     icons_enabled = false,
-    theme = 'nordic',
+    theme = 'gruvbox-material',
     component_separators = '|',
     section_separators = '',
   },
@@ -153,6 +157,7 @@ vim.keymap.set('n', '<C-t>', function() require('telescope.builtin').find_files 
 -- Treesitter configuration
 -- Parsers must be installed manually via :TSInstall
 require('nvim-treesitter.configs').setup {
+  auto_install = true,
   highlight = {
     enable = true, -- false will disable the whole extension
   },
@@ -214,6 +219,7 @@ require('nvim-treesitter.configs').setup {
   },
 }
 
+
 -- Diagnostic settings
 vim.diagnostic.config {
   virtual_text = false,
@@ -221,7 +227,7 @@ vim.diagnostic.config {
 }
 
 -- Diagnostic keymaps
-vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float)
+vim.keymap.set('n', 'K', vim.diagnostic.open_float)
 vim.keymap.set('n', '[d', vim.diagnostic.goto_prev)
 vim.keymap.set('n', ']d', vim.diagnostic.goto_next)
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist)
@@ -239,7 +245,7 @@ local on_attach = function(_, bufnr)
   local attach_opts = { silent = true, buffer = bufnr }
   vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, attach_opts)
   vim.keymap.set('n', 'gd', vim.lsp.buf.definition, attach_opts)
-  vim.keymap.set('n', 'K', vim.lsp.buf.hover, attach_opts)
+  vim.keymap.set('n', 'H', vim.lsp.buf.hover, attach_opts)
   vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, attach_opts)
   vim.keymap.set('n', '<C-s>', vim.lsp.buf.signature_help, attach_opts)
   vim.keymap.set('n', '<leader>wa', vim.lsp.buf.add_workspace_folder, attach_opts)
@@ -321,4 +327,7 @@ cmp.setup {
     { name = 'luasnip' },
   },
 }
--- vim: ts=2 sts=2 sw=2 et
+
+-- Javacomplete
+require('jc').setup{}
+vim.keymap.set('n', '<C-g><C-s>', function() vim.cmd.JCgenerateAccessorSetterGetter() end)
